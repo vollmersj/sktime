@@ -60,7 +60,7 @@ class SingleSeriesTransformAdaptor(BaseSingleSeriesTransformer):
         return y.values.reshape(-1, 1)
 
     @staticmethod
-    def _detabularise(y, index):
+    def _detabularize(y, index):
         """Convert single-column tabular array to single series"""
         return pd.Series(y.ravel(), index=index)
 
@@ -82,7 +82,7 @@ class SingleSeriesTransformAdaptor(BaseSingleSeriesTransformer):
 
         x = self._tabularise(y)
         xt = self.transformer_.transform(x)
-        return self._detabularise(xt, index=y.index)
+        return self._detabularize(xt, index=y.index)
 
     @if_delegate_has_method(delegate="transformer")
     def inverse_transform(self, y, **transform_params):
@@ -102,7 +102,7 @@ class SingleSeriesTransformAdaptor(BaseSingleSeriesTransformer):
 
         x = self._tabularise(y)
         xt = self.transformer_.inverse_transform(x)
-        return self._detabularise(xt, index=y.index)
+        return self._detabularize(xt, index=y.index)
 
     def update(self, y_new, update_params=False):
         """Update fitted parameters

@@ -158,6 +158,8 @@ def detabularize(X, index=None, time_index=None, return_arrays=False):
             "`Time_index` cannot be specified when `return_arrays` is True, "
             "time index can only be set to "
             "pandas Series")
+    if isinstance(X, pd.DataFrame):
+        X = X.to_numpy()
 
     container = np.array if return_arrays else pd.Series
 
@@ -168,18 +170,13 @@ def detabularize(X, index=None, time_index=None, return_arrays=False):
     kwargs = {'index': time_index}
 
     Xt = pd.DataFrame(pd.Series(
-        [container(X.iloc[i, :].values, **kwargs) for i in
+        [container(X[i, :], **kwargs) for i in
          range(n_instances)]))
 
     if index is not None:
         Xt.index = index
 
     return Xt
-
-
-tabularize = tabularize
-
-detabularise = detabularize
 
 
 def concat_nested_arrays(arrs, return_arrays=False):

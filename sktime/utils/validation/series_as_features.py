@@ -69,7 +69,7 @@ def check_X(X, return_numpy=False, enforce_univariate=False,
         if n_columns > 1:
             raise ValueError(
                 f"This method requires X to be univariate "
-                f"with X.shape[1]== 1, but found: "
+                f"with X.shape[1] == 1, but found: "
                 f"X.shape[1] == {X.shape[1]}.")
 
     # check number of instances

@@ -29,7 +29,8 @@ ACCEPTED_OUTPUT_TYPES = (np.ndarray, pd.Series)
 def test_series_as_features_multivariate_input(Estimator):
     # check if multivariate input is correctly handled
     n_columns = 2
-    error_msg = f"X must be univariate with X.shape[1] == 1, but found: " \
+    error_msg = f"This method requires X to be univariate " \
+                f"with X.shape[1] == 1, but found: " \
                 f"X.shape[1] == {n_columns}."
 
     estimator = _construct_instance(Estimator)

@@ -15,7 +15,7 @@ __all__ = [
 import numpy as np
 import pandas as pd
 from sklearn.utils.validation import check_random_state
-from sktime.utils.data_container import detabularise
+from sktime.utils.data_container import detabularize
 from sktime.utils.validation.forecasting import check_fh
 from sktime.utils.validation.forecasting import check_y
 
@@ -82,7 +82,7 @@ def generate_time_series_data_with_trend(n_instances=1, n_timepoints=100,
 
     X = pd.DataFrame(samples)
     assert X.shape == (n_instances, n_timepoints)
-    return detabularise(X)
+    return detabularize(X)
 
 
 def generate_seasonal_time_series_data_with_trend(n_samples=1, n_obs=100,
@@ -111,7 +111,7 @@ def generate_seasonal_time_series_data_with_trend(n_samples=1, n_obs=100,
 
     X = pd.DataFrame(samples)
     assert X.shape == (n_samples, n_obs)
-    return detabularise(X)
+    return detabularize(X)
 
 
 def make_forecasting_problem(n_timepoints=50, random_state=None):

@@ -13,7 +13,7 @@ import pandas as pd
 from sklearn.utils.validation import check_random_state
 
 
-def _make_series_as_features_X(y, n_columns, n_timepoints,
+def _make_series_as_features_X(y, n_columns=1, n_timepoints=10,
                                random_state=None):
     n_instances = len(y)
     rng = check_random_state(random_state)
@@ -34,11 +34,15 @@ def make_classification_problem(n_instances=20, n_columns=1,
                                 n_timepoints=20, n_classes=2,
                                 random_state=None):
     rng = check_random_state(random_state)
-    y = pd.Series(np.hstack([np.arange(n_classes),
-                             rng.randint(0, n_classes,
-                                         size=n_instances - n_classes)]))
 
-    X = _make_series_as_features_X(y, n_columns, n_timepoints,
+    # generate y
+    y = np.resize(np.arange(n_classes), n_instances)
+    rng.shuffle(y)
+    y = pd.Series(y)
+
+    # generate X
+    X = _make_series_as_features_X(y, n_columns=n_columns,
+                                   n_timepoints=n_timepoints,
                                    random_state=random_state)
 
     return X, y

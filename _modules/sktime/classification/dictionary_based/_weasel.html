@@ -1,0 +1,510 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.classification.dictionary_based._weasel &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../../../about.html" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributing.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../governance.html">Governance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../code_of_conduct.html">Code of Conduct</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributors.html">Contributors</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>sktime.classification.dictionary_based._weasel</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sktime.classification.dictionary_based._weasel</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; WEASEL classifier</span>
+<span class="sd">dictionary based classifier based on SFA transform, BOSS and linear regression.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Patrick Schäfer&quot;</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;WEASEL&quot;</span><span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">math</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sktime.classification.base</span> <span class="kn">import</span> <span class="n">BaseClassifier</span>
+<span class="kn">from</span> <span class="nn">sktime.transformers.series_as_features.dictionary_based</span> <span class="kn">import</span> <span class="n">SFA</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.validation.series_as_features</span> <span class="kn">import</span> <span class="n">check_X</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.validation.series_as_features</span> <span class="kn">import</span> <span class="n">check_X_y</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.feature_extraction</span> <span class="kn">import</span> <span class="n">DictVectorizer</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="c1"># from sklearn.feature_selection import chi2</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
+
+<span class="c1"># from sktime.transformers.series_as_features.dictionary_based._sax import \</span>
+<span class="c1">#     _BitWord</span>
+
+<span class="c1"># from numba import njit</span>
+<span class="c1"># from numba.typed import Dict</span>
+
+
+<div class="viewcode-block" id="WEASEL"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.classification.dictionary_based.WEASEL.html#sktime.classification.dictionary_based.WEASEL">[docs]</a><span class="k">class</span> <span class="nc">WEASEL</span><span class="p">(</span><span class="n">BaseClassifier</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Word ExtrAction for time SEries cLassification (WEASEL)</span>
+
+<span class="sd">    WEASEL: implementation of WEASEL from Schäfer:</span>
+<span class="sd">    @inproceedings{schafer2017fast,</span>
+<span class="sd">      title={Fast and Accurate Time Series Classification with WEASEL},</span>
+<span class="sd">      author={Sch{\&quot;a}fer, Patrick and Leser, Ulf},</span>
+<span class="sd">      booktitle={Proceedings of the 2017 ACM on Conference on Information and</span>
+<span class="sd">                 Knowledge Management},</span>
+<span class="sd">      pages={637--646},</span>
+<span class="sd">      year={2017}</span>
+<span class="sd">    }</span>
+<span class="sd">    # Overview: Input n series length m</span>
+<span class="sd">    # WEASEL is a dictionary classifier that builds a bag-of-patterns using SFA</span>
+<span class="sd">    # for different window lengths and learns a logistic regression classifier</span>
+<span class="sd">    # on this bag.</span>
+<span class="sd">    #</span>
+<span class="sd">    # There are these primary parameters:</span>
+<span class="sd">    #         alphabet_size: alphabet size</span>
+<span class="sd">    #         chi2-threshold: used for feature selection to select best words</span>
+<span class="sd">    #         anova: select best l/2 fourier coefficients other than first ones</span>
+<span class="sd">    #         bigrams: using bigrams of SFA words</span>
+<span class="sd">    #         binning_strategy: the binning strategy used to disctrtize into</span>
+<span class="sd">    #                           SFA words.</span>
+<span class="sd">    #</span>
+<span class="sd">    # WEASEL slides a window length w along the series. The w length window</span>
+<span class="sd">    # is shortened to an l length word through taking a Fourier transform and</span>
+<span class="sd">    # keeping the best l/2 complex coefficients using an anova one-sided</span>
+<span class="sd">    # test. These l coefficents are then discretised into alpha possible</span>
+<span class="sd">    # symbols, to form a word of length l. A histogram of words for each</span>
+<span class="sd">    # series is formed and stored.</span>
+<span class="sd">    # For each window-length a bag is created and all words are joint into</span>
+<span class="sd">    # one bag-of-patterns. Words from different window-lengths are</span>
+<span class="sd">    # discriminated by different prefixes.</span>
+<span class="sd">    #</span>
+<span class="sd">    # fit involves training a logistic regression classifier on the single</span>
+<span class="sd">    # bag-of-patterns.</span>
+<span class="sd">    #</span>
+<span class="sd">    # predict uses the logistic regression classifier</span>
+
+<span class="sd">    # For the Java version, see</span>
+<span class="sd">    # https://github.com/uea-machine-learning/tsml/blob/master/src/main/java</span>
+<span class="sd">    # /tsml/classifiers/dictionary_based/WEASEL.java</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    anova:               boolean, default = True</span>
+<span class="sd">        If True, the Fourier coefficient selection is done via a one-way</span>
+<span class="sd">        ANOVA test. If False, the first Fourier coefficients are selected.</span>
+<span class="sd">        Only applicable if labels are given</span>
+
+<span class="sd">    bigrams:             boolean, default = True</span>
+<span class="sd">            whether to create bigrams of SFA words</span>
+
+<span class="sd">    binning_strategy:   {&quot;equi-depth&quot;, &quot;equi-width&quot;, &quot;information-gain&quot;},</span>
+<span class="sd">                        default=&quot;information-gain&quot;</span>
+<span class="sd">        The binning method used to derive the breakpoints.</span>
+
+<span class="sd">    random_state:       int or None,</span>
+<span class="sd">        Seed for random, integer</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="WEASEL.__init__"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.classification.dictionary_based.WEASEL.html#sktime.classification.dictionary_based.WEASEL.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">anova</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">bigrams</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">binning_strategy</span><span class="o">=</span><span class="s2">&quot;information-gain&quot;</span><span class="p">,</span>
+                 <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span>
+                 <span class="p">):</span>
+
+        <span class="c1"># currently other values than 4 are not supported.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alphabet_size</span> <span class="o">=</span> <span class="mi">4</span>
+
+        <span class="c1"># feature selection is applied based on the chi-squared test.</span>
+        <span class="c1"># this is the threshold to use for chi-squared test on bag-of-words</span>
+        <span class="c1"># (higher means more strict)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chi2_threshold</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">anova</span> <span class="o">=</span> <span class="n">anova</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">norm_options</span> <span class="o">=</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">word_lengths</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">bigrams</span> <span class="o">=</span> <span class="n">bigrams</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">binning_strategy</span> <span class="o">=</span> <span class="n">binning_strategy</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">random_state</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">min_window</span> <span class="o">=</span> <span class="mi">6</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_window</span> <span class="o">=</span> <span class="mi">350</span>
+
+        <span class="c1"># differs from publication. here set to 4 for performance reasons</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">win_inc</span> <span class="o">=</span> <span class="mi">4</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">highest_bit</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window_sizes</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">series_length</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_instances</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">SFA_transformers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clf</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vectorizer</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_word_length</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">WEASEL</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="WEASEL.fit"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.classification.dictionary_based.html#sktime.classification.dictionary_based.WEASEL.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Build a WEASEL classifiers from the training set (X, y),</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : nested pandas DataFrame of shape [n_instances, 1]</span>
+<span class="sd">            Nested dataframe with univariate time-series in cells.</span>
+<span class="sd">        y : array-like, shape = [n_instances] The class labels.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">check_X_y</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">enforce_univariate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">values</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="k">else</span> <span class="n">y</span>
+
+        <span class="c1"># Window length parameter space dependent on series length</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_instances</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">series_length</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_window</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">series_length</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_window</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window_sizes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">min_window</span><span class="p">,</span>
+                                       <span class="bp">self</span><span class="o">.</span><span class="n">max_window</span><span class="p">,</span>
+                                       <span class="bp">self</span><span class="o">.</span><span class="n">win_inc</span><span class="p">))</span>
+
+        <span class="n">max_acc</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">highest_bit</span> <span class="o">=</span> <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_window</span><span class="p">))</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">final_bag_vec</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">for</span> <span class="n">norm</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm_options</span><span class="p">:</span>
+            <span class="c1"># transformers = []</span>
+
+            <span class="k">for</span> <span class="n">w</span><span class="p">,</span> <span class="n">word_length</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">word_lengths</span><span class="p">):</span>
+                <span class="n">all_words</span> <span class="o">=</span> <span class="p">[</span><span class="nb">dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">))]</span>
+                <span class="n">transformers</span> <span class="o">=</span> <span class="p">[]</span>
+
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">window_size</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window_sizes</span><span class="p">):</span>
+                    <span class="c1"># if w == 0:  # only compute once, otherwise shorten</span>
+                    <span class="n">transformer</span> <span class="o">=</span> <span class="n">SFA</span><span class="p">(</span><span class="n">word_length</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">word_length</span><span class="p">),</span>
+                                      <span class="n">alphabet_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">alphabet_size</span><span class="p">,</span>
+                                      <span class="n">window_size</span><span class="o">=</span><span class="n">window_size</span><span class="p">,</span>
+                                      <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">,</span>
+                                      <span class="n">anova</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">anova</span><span class="p">,</span>
+                                      <span class="n">binning_method</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">binning_strategy</span><span class="p">,</span>
+                                      <span class="n">bigrams</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bigrams</span><span class="p">,</span>
+                                      <span class="n">remove_repeat_words</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                      <span class="n">lower_bounding</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                      <span class="n">save_words</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                    <span class="n">sfa_words</span> <span class="o">=</span> <span class="n">transformer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+                    <span class="n">transformers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">transformer</span><span class="p">)</span>
+
+                    <span class="c1"># use the shortening of words trick</span>
+                    <span class="c1"># sfa_words = transformers[i]._shorten_bags(word_length)</span>
+
+                    <span class="c1"># TODO refactor? dicts not really needed here ...</span>
+                    <span class="n">bag</span> <span class="o">=</span> <span class="n">sfa_words</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+
+                    <span class="c1"># chi-squared test to keep only relevent features</span>
+                    <span class="c1"># bag_vec = DictVectorizer(sparse=False).fit_transform(bag)</span>
+                    <span class="c1"># chi2_statistics, p = chi2(bag_vec, y)</span>
+                    <span class="c1"># relevant_features = np.where(</span>
+                    <span class="c1">#    chi2_statistics &gt;= self.chi2_threshold)[0]</span>
+
+                    <span class="c1"># merging bag-of-patterns of different window_sizes</span>
+                    <span class="c1"># to single bag-of-patterns with prefix indicating</span>
+                    <span class="c1"># the used window-length</span>
+                    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bag</span><span class="p">)):</span>
+                        <span class="k">for</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="ow">in</span> <span class="n">bag</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                            <span class="c1"># if key in relevant_features:  # chi-squared test</span>
+                            <span class="c1"># append the prefices to the words to</span>
+                            <span class="c1"># distinguish between window-sizes</span>
+                            <span class="n">word</span> <span class="o">=</span> <span class="p">(</span><span class="n">key</span> <span class="o">&lt;&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">highest_bit</span><span class="p">)</span> <span class="o">|</span> <span class="n">window_size</span>
+                            <span class="c1"># X_all_words[j].append((word, value))</span>
+                            <span class="n">all_words</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">word</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+                <span class="c1"># TODO use CountVectorizer instead on actual words ... ???</span>
+                <span class="n">vectorizer</span> <span class="o">=</span> <span class="n">DictVectorizer</span><span class="p">(</span><span class="n">sparse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">bag_vec</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">all_words</span><span class="p">)</span>
+
+                <span class="n">clf</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;liblinear&quot;</span><span class="p">,</span>
+                                         <span class="n">dual</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">penalty</span><span class="o">=</span><span class="s2">&quot;l2&quot;</span><span class="p">,</span>
+                                         <span class="n">random_state</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span>
+                <span class="n">current_acc</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">bag_vec</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+                <span class="c1"># clf = RandomForestClassifier(oob_score=True,</span>
+                <span class="c1">#                              n_estimators=1000,</span>
+                <span class="c1">#                              n_jobs=-1).fit(bag_vec, y)</span>
+                <span class="c1"># current_acc = clf.oob_score_</span>
+
+                <span class="c1"># print(&quot;Train acc:&quot;, norm, word_length, current_acc)</span>
+
+                <span class="k">if</span> <span class="n">current_acc</span> <span class="o">&gt;</span> <span class="n">max_acc</span><span class="p">:</span>
+                    <span class="n">max_acc</span> <span class="o">=</span> <span class="n">current_acc</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">vectorizer</span> <span class="o">=</span> <span class="n">vectorizer</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">clf</span> <span class="o">=</span> <span class="n">clf</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">SFA_transformers</span> <span class="o">=</span> <span class="n">transformers</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">best_word_length</span> <span class="o">=</span> <span class="n">word_length</span>
+                    <span class="n">final_bag_vec</span> <span class="o">=</span> <span class="n">bag_vec</span>
+
+                <span class="k">if</span> <span class="n">max_acc</span> <span class="o">==</span> <span class="mf">1.0</span><span class="p">:</span>
+                    <span class="k">break</span>  <span class="c1"># there can be no better model than 1.0</span>
+
+        <span class="c1"># # fit final model using all words</span>
+        <span class="c1"># for i, window_size in enumerate(self.window_sizes):</span>
+        <span class="c1">#     self.SFA_transformers[i] = \</span>
+        <span class="c1">#         SFA(word_length=np.max(self.word_lengths),</span>
+        <span class="c1">#             alphabet_size=self.alphabet_size,</span>
+        <span class="c1">#             window_size=window_size,</span>
+        <span class="c1">#             norm=norm,</span>
+        <span class="c1">#             anova=self.anova,</span>
+        <span class="c1">#             binning_method=self.binning_strategy,</span>
+        <span class="c1">#             bigrams=self.bigrams,</span>
+        <span class="c1">#             remove_repeat_words=False,</span>
+        <span class="c1">#             lower_bounding=False,</span>
+        <span class="c1">#             save_words=False)</span>
+        <span class="c1">#     self.SFA_transformers[i].fit_transform(X, y)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">final_bag_vec</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_fitted</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="WEASEL.predict"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.classification.dictionary_based.html#sktime.classification.dictionary_based.WEASEL.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_is_fitted</span><span class="p">()</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">check_X</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">enforce_univariate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">bag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform_words</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">bag_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vectorizer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">bag</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">bag_dict</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="WEASEL.predict_proba"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.classification.dictionary_based.html#sktime.classification.dictionary_based.WEASEL.predict_proba">[docs]</a>    <span class="k">def</span> <span class="nf">predict_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_is_fitted</span><span class="p">()</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">check_X</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">enforce_univariate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">bag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform_words</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">bag_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vectorizer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">bag</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">bag_dict</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_transform_words</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="n">bag_all_words</span> <span class="o">=</span> <span class="p">[</span><span class="nb">dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">))]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">window_size</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window_sizes</span><span class="p">):</span>
+
+            <span class="c1"># SFA transform</span>
+            <span class="n">sfa_words</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">SFA_transformers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+            <span class="n">bag</span> <span class="o">=</span> <span class="n">sfa_words</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+
+            <span class="c1"># merging bag-of-patterns of different window_sizes</span>
+            <span class="c1"># to single bag-of-patterns with prefix indicating</span>
+            <span class="c1"># the used window-length</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bag</span><span class="p">)):</span>
+                <span class="k">for</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="ow">in</span> <span class="n">bag</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="c1"># append the prefices to the words to distinguish</span>
+                    <span class="c1"># between window-sizes</span>
+                    <span class="n">word</span> <span class="o">=</span> <span class="p">(</span><span class="n">key</span> <span class="o">&lt;&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">highest_bit</span><span class="p">)</span> <span class="o">|</span> <span class="n">window_size</span>
+                    <span class="n">bag_all_words</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">word</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="k">return</span> <span class="n">bag_all_words</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

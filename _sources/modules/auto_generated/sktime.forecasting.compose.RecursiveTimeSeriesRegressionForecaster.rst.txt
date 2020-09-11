@@ -1,0 +1,10 @@
+﻿:mod:`sktime.forecasting.compose`.RecursiveTimeSeriesRegressionForecaster
+================================================================================
+
+.. currentmodule:: sktime.forecasting.compose
+
+.. autoclass:: RecursiveTimeSeriesRegressionForecaster
+
+   
+   .. automethod:: __init__
+   

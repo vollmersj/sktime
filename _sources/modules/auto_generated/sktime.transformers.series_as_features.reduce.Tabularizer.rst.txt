@@ -1,0 +1,10 @@
+﻿:mod:`sktime.transformers.series_as_features.reduce`.Tabularizer
+=======================================================================
+
+.. currentmodule:: sktime.transformers.series_as_features.reduce
+
+.. autoclass:: Tabularizer
+
+   
+   .. automethod:: __init__
+   

@@ -1,0 +1,10 @@
+﻿:mod:`sktime.transformers.single_series.detrend`.ConditionalDeseasonalizer
+=================================================================================
+
+.. currentmodule:: sktime.transformers.single_series.detrend
+
+.. autoclass:: ConditionalDeseasonalizer
+
+   
+   .. automethod:: __init__
+   

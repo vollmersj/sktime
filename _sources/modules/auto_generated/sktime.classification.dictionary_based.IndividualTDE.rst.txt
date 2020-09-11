@@ -1,0 +1,10 @@
+﻿:mod:`sktime.classification.dictionary_based`.IndividualTDE
+==================================================================
+
+.. currentmodule:: sktime.classification.dictionary_based
+
+.. autoclass:: IndividualTDE
+
+   
+   .. automethod:: __init__
+   

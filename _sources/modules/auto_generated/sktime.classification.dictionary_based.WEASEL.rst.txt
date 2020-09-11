@@ -1,0 +1,10 @@
+﻿:mod:`sktime.classification.dictionary_based`.WEASEL
+===========================================================
+
+.. currentmodule:: sktime.classification.dictionary_based
+
+.. autoclass:: WEASEL
+
+   
+   .. automethod:: __init__
+   

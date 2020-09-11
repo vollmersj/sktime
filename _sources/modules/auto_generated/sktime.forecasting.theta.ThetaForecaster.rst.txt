@@ -1,0 +1,10 @@
+﻿:mod:`sktime.forecasting.theta`.ThetaForecaster
+======================================================
+
+.. currentmodule:: sktime.forecasting.theta
+
+.. autoclass:: ThetaForecaster
+
+   
+   .. automethod:: __init__
+   

@@ -1,0 +1,10 @@
+﻿:mod:`sktime.classification.frequency_based`.RandomIntervalSpectralForest
+================================================================================
+
+.. currentmodule:: sktime.classification.frequency_based
+
+.. autoclass:: RandomIntervalSpectralForest
+
+   
+   .. automethod:: __init__
+   

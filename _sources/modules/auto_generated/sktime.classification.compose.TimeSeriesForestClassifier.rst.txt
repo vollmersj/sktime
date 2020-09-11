@@ -1,0 +1,10 @@
+﻿:mod:`sktime.classification.compose`.TimeSeriesForestClassifier
+======================================================================
+
+.. currentmodule:: sktime.classification.compose
+
+.. autoclass:: TimeSeriesForestClassifier
+
+   
+   .. automethod:: __init__
+   

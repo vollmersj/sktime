@@ -2,6 +2,7 @@ __all__ = ["Orchestrator"]
 __author__ = ["Viktor Kazakov", "Markus Löning"]
 
 from sklearn.base import clone
+
 from sktime.benchmarking.tasks import TSCTask
 from sktime.benchmarking.tasks import TSRTask
 
@@ -79,14 +80,30 @@ class Orchestrator:
 
             # else fit and save fitted strategy
             else:
-                train = data.iloc[train_idx]
-                self._print_progress(dataset.name, strategy.name, cv_fold,
-                                     "train", "fit", verbose)
-                strategy.fit(task, train)
-                self.results.save_fitted_strategy(
-                    strategy=strategy,
-                    dataset_name=data.dataset_name,
-                    cv_fold=cv_fold)
+                try:
+                    train = data.iloc[train_idx]
+                    self._print_progress(dataset.name, strategy.name, cv_fold,
+                                         "train", "fit", verbose)
+                    strategy.fit(task, train)
+                    self.results.save_fitted_strategy(
+                        strategy=strategy,
+                        dataset_name=data.dataset_name,
+                        cv_fold=cv_fold)
+
+                # raise crucial exceptions
+                except (KeyboardInterrupt, SystemExit):
+                    raise
+
+                # catch all other exceptions and continue
+                except Exception:
+                    print(
+                        f"Skipped strategy: {self._strategy_counter}/"
+                        f"{self.n_strategies} - "f"{strategy.name} "
+                        f"on CV-fold: {cv_fold}/{self.cv.get_n_splits() - 1} "
+                        f"of dataset: {self._dataset_counter}/"
+                        f"{self.n_datasets} - "
+                        f"{data.dataset_name}")
+                    continue
 
     def predict(self, overwrite_predictions=False, predict_on_train=False,
                 verbose=False):
@@ -139,13 +156,29 @@ class Orchestrator:
                 continue
 
             # split data into training and test sets
-            train = data.iloc[train_idx]
-            test = data.iloc[test_idx]
+            try:
+                train = data.iloc[train_idx]
+                test = data.iloc[test_idx]
 
-            # fit strategy
-            self._print_progress(dataset.name, strategy.name, cv_fold, "train",
-                                 "fit", verbose)
-            strategy.fit(task, train)
+                # fit strategy
+                self._print_progress(dataset.name, strategy.name, cv_fold,
+                                     "train", "fit", verbose)
+                strategy.fit(task, train)
+
+            # raise crucial exceptions
+            except (KeyboardInterrupt, SystemExit):
+                raise
+
+            # catch all other exceptions and continue
+            except Exception:
+                print(
+                    f"Skipped strategy: {self._strategy_counter}/"
+                    f"{self.n_strategies} - "f"{strategy.name} "
+                    f"on CV-fold: {cv_fold}/{self.cv.get_n_splits() - 1} "
+                    f"of dataset: {self._dataset_counter}/"
+                    f"{self.n_datasets} - "
+                    f"{data.dataset_name}")
+                continue
 
             # save fitted strategy if save fitted strategies is set to True
             # and overwrite is set to True or the

@@ -134,3 +134,9 @@ class HDDResults(HDDBaseResults):
             os.makedirs(filepath)
         filename = f"{strategy_name}_{train_or_test}_{cv_fold}"
         return os.path.join(filepath, filename)
+
+    def save_timings(self, strategy_name, dataset_name, cv_fold, fit_time,
+                     predict_time):
+        key = self._generate_key(strategy_name, dataset_name, cv_fold,
+                                 "timings") + ".txt"
+        np.savetxt(key, np.vstack([fit_time, predict_time]))

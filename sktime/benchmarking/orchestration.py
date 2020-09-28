@@ -1,6 +1,8 @@
 __all__ = ["Orchestrator"]
 __author__ = ["Viktor Kazakov", "Markus Löning"]
 
+import time
+import numpy as np
 from sklearn.base import clone
 
 from sktime.benchmarking.tasks import TSCTask
@@ -116,6 +118,7 @@ class Orchestrator:
                     predict_on_train=False,
                     save_fitted_strategies=True,
                     overwrite_fitted_strategies=False,
+                    save_timings=False,
                     verbose=False):
         """Fit and predict"""
 
@@ -163,7 +166,9 @@ class Orchestrator:
                 # fit strategy
                 self._print_progress(dataset.name, strategy.name, cv_fold,
                                      "train", "fit", verbose)
+                start = time.time()
                 strategy.fit(task, train)
+                fit_time = time.time() - start
 
             # raise crucial exceptions
             except (KeyboardInterrupt, SystemExit):
@@ -211,7 +216,10 @@ class Orchestrator:
             # predictions do not already exist
             if overwrite_predictions or not test_pred_exist:
                 y_true = test.loc[:, task.target]
+                start = time.time()
                 y_pred = strategy.predict(test)
+                predict_time = time.time() - start
+
                 y_proba = self._predict_proba_one(strategy, task, test, y_true,
                                                   y_pred)
                 self.results.save_predictions(dataset_name=dataset.name,
@@ -222,6 +230,13 @@ class Orchestrator:
                                               y_proba=y_proba,
                                               cv_fold=cv_fold,
                                               train_or_test="test")
+
+                if save_timings:
+                    self.results.save_timings(dataset_name=dataset.name,
+                                              strategy_name=strategy.name,
+                                              fit_time=fit_time,
+                                              predict_time=predict_time,
+                                              cv_fold=cv_fold)
 
         # save results as master file
         self.results.save()
